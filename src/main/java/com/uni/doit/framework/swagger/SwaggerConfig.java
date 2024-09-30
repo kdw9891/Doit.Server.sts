@@ -17,8 +17,8 @@ public class SwaggerConfig {
  
     private Info apiInfo() {
         return new Info()
-                .title("Mooroc Springdoc")
-                .description("Mooroc.Server Swagger UI")
+                .title("Doit Springdoc")
+                .description("Doit.Server Swagger UI")
                 .version("1.0.0");
     }
 }
