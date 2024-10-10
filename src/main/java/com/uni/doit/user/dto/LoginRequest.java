@@ -11,6 +11,6 @@ public class LoginRequest {
     @JsonProperty("user_id")
     private String user_id;
     
-    @JsonProperty("user_name")
-    private String user_name;
+    @JsonProperty("password")
+    private String password;
 }
