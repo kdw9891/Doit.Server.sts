@@ -1,34 +1,54 @@
 package com.uni.doit.user.service;
 
-import com.uni.doit.framework.utils.DatabaseUtils;
-import com.uni.doit.framework.utils.JsonResultUtils;
+import com.uni.doit.framework.secure.JwtTokenUtils;
+import com.uni.doit.framework.utils.BaseService;
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
-public class UserService {
+public class UserService extends BaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private final JsonResultUtils jsonResultUtils;
-    private final DatabaseUtils databaseUtils;
+	public ResponseEntity<?> loginUser(Map<String, Object> param) {
+	    try {
+	        SqlSession session = getSession();
 
-    public UserService(JsonResultUtils jsonResultUtils, DatabaseUtils databaseUtils) {
-        this.jsonResultUtils = jsonResultUtils;
-        this.databaseUtils = databaseUtils;
-    }
+	        Map<String, Object> userInfo = session.selectOne("LoginList.SelectUserInfo", param);
 
-    public ResponseEntity<?> loginUser(Map<String, Object> param) {
+	        if (userInfo == null || userInfo.isEmpty()) {
+	            return ResponseEntity.status(401).body("Invalid credentials");
+	        }
+
+	        session.update("LoginList.UpdateLoginDate", param);
+
+	        String token = (String) param.getOrDefault("auth-token", JwtTokenUtils.generateToken(
+	                Map.of("user_id", userInfo.get("user_id"), "user_nickname", userInfo.get("user_nickname"))
+	        ));
+
+	        Map<String, Object> response = Map.of(
+	            "user_id", userInfo.get("user_id"),
+	            "user_nickname", userInfo.get("user_nickname"),
+	            "email", userInfo.get("email"),
+	            "use_yn", userInfo.get("use_yn"),
+	            "auth-token", token
+	        );
+
+	        return ResponseEntity.ok(response);
+
+	    } catch (Exception e) {
+	        return handleDatabaseError(e, "loginUser");
+	    }
+	}
+
+    // 회원가입
+    public ResponseEntity<?> registerUser(Map<String, Object> param) {
         try {
-            SqlSession session = databaseUtils.getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "UserList.SelectUserInfo", param, "userinfo"));
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "RegisterInsert.Register", param, "Result"));
         } catch (Exception e) {
-            logger.error("Database error during loginUser: {}", e.getMessage(), e);
-            return ResponseEntity.status(500).body("Database error: " + e.getMessage());
+            return handleDatabaseError(e, "registerUser");
         }
     }
 }

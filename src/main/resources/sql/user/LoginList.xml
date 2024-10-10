@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LoginList">
+
+  <select id="SelectUserInfo" resultType="HashMap" parameterType="HashMap">
+	SELECT
+    	user_id,
+        user_nickname,
+        email,
+        use_yn
+    FROM
+        tb_user
+    WHERE
+        user_id = #{user_id}
+        AND password = SHA2(#{password}, 256)
+        AND use_yn = 'Y'
+  </select>
+  
+  <update id="UpdateLoginDate" parameterType="HashMap">
+    UPDATE
+      tb_user
+    SET
+      login_dt = sysdate()
+    WHERE
+      user_id = #{user_id}
+  </update>
+  
+</mapper>

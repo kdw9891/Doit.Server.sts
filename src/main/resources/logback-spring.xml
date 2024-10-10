@@ -1,0 +1,34 @@
+<configuration>
+
+    <!-- 콘솔 로그 설정 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 로그 설정 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/mooroc-server.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 로그 파일 이름 설정 (날짜와 인덱스 기반으로) -->
+            <fileNamePattern>logs/mooroc-server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 로그 파일의 최대 크기 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 로그 파일 최대 보관 수 -->
+            <maxHistory>7</maxHistory>
+            <!-- 전체 로그 파일의 최대 크기 -->
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 루트 로그 레벨 설정 (INFO) -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+    
+</configuration>
