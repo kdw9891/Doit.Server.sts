@@ -51,4 +51,14 @@ public class UserService extends BaseService {
             return handleDatabaseError(e, "registerUser");
         }
     }
+    
+    // 아이디찾기 
+    public ResponseEntity<?> idfindUser(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "IdfindCheck.Idfind", param, "Result"));
+        } catch (Exception e) {
+            return handleDatabaseError(e, "idfindUser");
+        }
+    }
 }

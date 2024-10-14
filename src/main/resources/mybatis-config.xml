@@ -11,5 +11,6 @@
     <mappers>
     	<mapper resource="sql/user/LoginList.xml"/>
     	<mapper resource="sql/user/RegisterInsert.xml"/>
+    	<mapper resource="sql/user/IdfindCheck.xml"/>
     </mappers>
 </configuration>

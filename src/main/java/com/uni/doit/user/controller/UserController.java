@@ -1,6 +1,7 @@
 package com.uni.doit.user.controller;
 
 import com.uni.doit.framework.utils.ParamUtils;
+import com.uni.doit.user.dto.IdfindRequest;
 import com.uni.doit.user.dto.RegisterRequest;
 import com.uni.doit.user.service.UserService;
 import com.uni.doit.framework.utils.BaseController;
@@ -51,4 +52,19 @@ public class UserController extends BaseController {
 
         return userService.registerUser(params);
     }
+    
+    @PostMapping("/idfind")
+    public ResponseEntity<?> idfindUser(@RequestBody IdfindRequest idfindRequest) throws IOException {
+        ResponseEntity<Map<String, Object>> validationResult = validateDto(idfindRequest, "user_id", "email");
+
+        if (validationResult.getStatusCode().is4xxClientError()) {
+            return validationResult;
+        }
+
+        Map<String, Object> params = validationResult.getBody();
+
+        return userService.registerUser(params);
+    }
+    
+    
 }
