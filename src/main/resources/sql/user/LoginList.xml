@@ -6,10 +6,10 @@
 
   <select id="SelectUserInfo" resultType="HashMap" parameterType="HashMap">
 	SELECT
-    	user_id,
-        user_nickname,
-        email,
-        use_yn
+    	user_id
+    ,   user_nickname
+    ,   email
+    ,   use_yn
     FROM
         tb_user
     WHERE
