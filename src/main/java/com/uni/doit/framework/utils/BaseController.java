@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.Optional;
 
 @RestControllerAdvice
 public abstract class BaseController {
