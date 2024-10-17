@@ -55,7 +55,7 @@ public class UserController extends BaseController {
     
     @PostMapping("/idfind")
     public ResponseEntity<?> idFindUser(@RequestBody IdfindRequest idfindRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(idfindRequest, "user_id", "email");
+        ResponseEntity<Map<String, Object>> validationResult = validateDto(idfindRequest, "email");
 
         if (validationResult.getStatusCode().is4xxClientError()) {
             return validationResult;
