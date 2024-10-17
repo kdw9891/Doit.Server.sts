@@ -9,9 +9,14 @@
     
     <!-- SQL쿼리문들이 저장된 SQL파일 등록 -->
     <mappers>
+    
+   		<!-- user -->
     	<mapper resource="sql/user/LoginList.xml"/>
     	<mapper resource="sql/user/RegisterInsert.xml"/>
     	<mapper resource="sql/user/IdFindCheck.xml"/>
     	<mapper resource="sql/user/PassFindCheck.xml"/>
+    	
+    	<!-- other -->
+    	
     </mappers>
 </configuration>
