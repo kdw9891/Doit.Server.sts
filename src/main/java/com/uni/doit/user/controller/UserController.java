@@ -54,7 +54,7 @@ public class UserController extends BaseController {
     }
     
     @PostMapping("/idfind")
-    public ResponseEntity<?> idfindUser(@RequestBody IdfindRequest idfindRequest) throws IOException {
+    public ResponseEntity<?> idFindUser(@RequestBody IdfindRequest idfindRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(idfindRequest, "user_id", "email");
 
         if (validationResult.getStatusCode().is4xxClientError()) {
@@ -63,7 +63,7 @@ public class UserController extends BaseController {
 
         Map<String, Object> params = validationResult.getBody();
 
-        return userService.registerUser(params);
+        return userService.idfindUser(params);
     }
     
     
