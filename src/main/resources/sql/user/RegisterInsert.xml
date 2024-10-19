@@ -5,20 +5,20 @@
 <mapper namespace="RegisterInsert">
 
   <select id="Register" resultType="HashMap" parameterType="HashMap">
-	insert into tb_user (
+	INSERT INTO tb_user (
         user_id
     ,   password
     ,   user_nickname
     ,   email
     ,   use_yn
     ,   create_dt
-    ) values (
+    ) VALUES (
         #{user_id}
     ,   SHA2(#{password}, 256)
     ,   #{user_nickname}
     ,   #{email}
     ,   'Y'
-    ,   sysdate()
+    ,   CURRENT_TIMESTAMP()
     )
   </select>
   
