@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RankList">
+
+  <select id="SelectRank" resultType="HashMap" parameterType="HashMap">
+	SELECT 
+    	ts.user_id
+    ,   u.user_nickname
+    ,   ts.week_number
+    ,   ts.total_study_time
+	FROM 
+    	tb_total_study_time ts
+	LEFT JOIN 
+	    tb_user u ON ts.user_id = u.user_id
+	WHERE
+		1=1
+		<if test="week_number != null">
+            AND ts.week_number = #{week_number}
+        </if>
+	ORDER BY
+    	ts.week_number,
+    	ts.total_study_time DESC;
+  </select>
+  
+</mapper>
