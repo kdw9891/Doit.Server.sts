@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StoreList">
+
+  <!-- 카테고리 별 아이템 List -->
+  <select id="SelectItem" resultType="HashMap" parameterType="HashMap">
+	SELECT 
+	    i.item_id
+	,   i.item_name
+	,   i.item_description
+	,   i.item_price
+	,   i.item_category
+	,   i.item_rarity
+	,   i.is_available
+	,   i.created_at
+	,   img.image_url
+	,   img.image_description
+	FROM 
+	    DOIT.tb_items i
+	LEFT JOIN 
+	    DOIT.tb_item_images img
+	    ON i.item_id = img.item_id
+	WHERE
+	    i.item_category = #{item_category}
+	ORDER BY 
+	    i.item_price ASC;
+  </select>
+  
+  <!-- 특정 아이템의 가격 및 구매 가능 여부 확인 -->
+    <select id="SelectItemPrice" parameterType="int" resultType="HashMap">
+        SELECT
+        	item_price
+        ,	is_available
+        FROM
+        	tb_items
+        WHERE
+        	item_id = #{item_id};
+    </select>
+  
+</mapper>
