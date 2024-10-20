@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IvnDelete">
+
+	<!-- 사용된 아이템의 수량을 줄이고 quantity가 0이 되면 is_used를 업데이트 -->
+	<update id="DeleteItem" parameterType="HashMap">
+    	UPDATE `tb_user_inventory`
+		SET `quantity` = `quantity` - 1,
+    		`is_used` = CASE WHEN `quantity` - 1 = 0 THEN 1 ELSE `is_used` END,
+    		`used_date` = CASE WHEN `quantity` - 1 = 0 THEN NOW() ELSE `used_date` END
+		WHERE 
+    		`inventory_id` = #{inventory_id}
+    		AND `quantity` > 0;
+    </update>
+  
+  	<!-- 사용 이력 테이블에 내역 추가 -->
+  	<insert id="InsertUseItem" parameterType="HashMap">
+ 		INSERT INTO `tb_user_item_usage` (
+    		`inventory_id`
+		,   `user_id`
+		,   `item_id`
+		,   `used_date`
+		) VALUES (
+    		#{inventory_id}
+		,   #{user_id}
+		,   #{item_id}
+		,   NOW()
+		);
+  	</insert>
+  
+</mapper>

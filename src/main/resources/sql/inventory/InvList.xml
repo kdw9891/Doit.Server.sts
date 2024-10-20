@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="InvList">
+
+  <select id="SelectInv" resultType="HashMap" parameterType="HashMap">
+	SELECT 
+	    inv.`inventory_id`
+	,   inv.`user_id`
+	,   inv.`item_id`
+	,   itm.`item_name`
+	,   itm.`item_description`
+	,   itm.`item_price`
+	,   itm.`item_category`
+	,   itm.`item_rarity`
+	,   inv.`quantity`
+	,   inv.`is_equipped`
+	,   inv.`is_used`
+	,   inv.`purchase_date`
+	,   inv.`used_date`
+	FROM 
+	    `tb_user_inventory` inv
+	LEFT JOIN 
+  	  `tb_items` itm
+  	  ON inv.`item_id` = itm.`item_id`
+	WHERE 
+    	inv.`user_id` = #{user_id}
+  </select>
+  
+</mapper>
