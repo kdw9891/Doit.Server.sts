@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserCat">
+
+  <select id="Cat" resultType="HashMap" parameterType="HashMap">
+	SELECT
+    	user_id
+    ,   cat_level
+    ,	xp_total
+    FROM
+        tb_user_cat
+    WHERE
+        user_id = #{user_id}
+        cat_level = #{cat_level}
+        xp_total = #{xp_total}
+  </select>
+  
+</mapper>

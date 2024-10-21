@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserCoin">
+
+  <select id="Coin" resultType="HashMap" parameterType="HashMap">
+	SELECT
+    	user_id
+    ,	total_points
+    FROM
+        tb_user_total_points
+    WHERE
+        user_id = #{user_id}
+        total_points = #{total_points}
+  </select>
+  
+    <update id="UpdateCoin" parameterType="HashMap">
+    UPDATE
+      tb_user_total_points
+    SET
+      last_updated = sysdate()
+    WHERE
+      user_id = #{user_id}
+      total_points = #{total_points}
+  </update>
+  
+</mapper>
