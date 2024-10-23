@@ -5,14 +5,18 @@
 <mapper namespace="UserCoin">
 
   <select id="Coin" resultType="HashMap" parameterType="HashMap">
-	SELECT
-    	user_id
-    ,	total_points
-    FROM
-        tb_user_total_points
-    WHERE
-        user_id = #{user_id}
-        total_points = #{total_points}
+   SELECT 
+    	a.cat_level,
+    	a.xp_total,
+    	b.total_points
+	FROM 
+    	tb_user_cat a
+	INNER JOIN 
+    	tb_user_total_points b ON a.user_id = b.user_id
+	WHERE 
+    	a.user_id = #{user_id};
+
+
   </select>
   
     <update id="UpdateCoin" parameterType="HashMap">
@@ -21,7 +25,6 @@
     SET
       last_updated = sysdate()
     WHERE
-      user_id = #{user_id}
       total_points = #{total_points}
   </update>
   
