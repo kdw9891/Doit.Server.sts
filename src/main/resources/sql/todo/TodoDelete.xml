@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TodoDelete">
+
+	<!-- Todo 삭제 처리 -->
+	<update id="DeleteTodo" parameterType="HashMap">
+    	UPDATE tb_todolist
+		SET use_yn = 'N',
+        	updated_dt = CURRENT_TIMESTAMP()
+		WHERE
+			user_id = #{user_id}
+			AND task_id = #{task_id}
+    </update>
+  
+  
+</mapper>

@@ -19,7 +19,7 @@
   	  UPDATE tb_user
   	  	SET
   	  		password = SHA2(#{password}, 256)
-  	  	,	update_dt = sysdate()
+  	  	,	update_dt = CURRENT_TIMESTAMP()
     	WHERE
     		user_id = #{user_id}
     		AND email = #{email}

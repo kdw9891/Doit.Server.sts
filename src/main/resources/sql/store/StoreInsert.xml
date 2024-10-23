@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StoreInsert">
+
+  	<!-- 포인트 사용 내역 추가 -->
+    <insert id="InsertPointUsage" parameterType="HashMap">
+        INSERT INTO tb_point_usage (
+            user_id
+        ,   item_id
+        ,   points_spent
+        ,   usage_date
+        ) VALUES (
+            #{user_id}
+        ,   #{item_id}
+        ,   #{points_spent}
+        ,   CURRENT_TIMESTAMP()
+        );
+    </insert>
+  
+	<!-- 사용자의 총 포인트 확인 -->
+    <select id="SelectUserTotalPoints" parameterType="String" resultType="int">
+        SELECT
+        	total_points
+        FROM
+        	tb_user_total_points
+        WHERE
+        	user_id = #{user_id}
+        FOR UPDATE;
+    </select>
+
+    <!-- 사용자의 포인트 차감 -->
+    <update id="UpdateUserTotalPoints" parameterType="HashMap">
+        UPDATE tb_user_total_points
+        SET total_points = total_points - #{points_spent},
+            last_updated = CURRENT_TIMESTAMP()
+        WHERE
+        	user_id = #{user_id};
+    </update>
+    
+</mapper>

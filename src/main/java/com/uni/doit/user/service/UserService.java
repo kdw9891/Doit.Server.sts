@@ -44,15 +44,27 @@ public class UserService extends BaseService {
 	    }
 	}
 
-    // 회원가입
-    public ResponseEntity<?> registerUser(Map<String, Object> param) {
-        try {
-            SqlSession session = getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "RegisterInsert.Register", param, "Result"));
-        } catch (Exception e) {
-            return handleDatabaseError(e, "registerUser");
-        }
-    }
+	// 회원가입
+	public ResponseEntity<?> registerUser(Map<String, Object> param) {
+	    SqlSession session = getSession();
+	    try {
+	    	
+	    	int userCount = session.selectOne("RegisterInsert.CheckUserIdExists", param.get("user_id"));
+	        if (userCount > 0) {
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 사용자 ID입니다.");
+	        }
+	    	
+	        session.insert("RegisterInsert.InsertInitialUserPoints", param);
+	        session.insert("RegisterInsert.InsertInitialUserCat", param);
+	        
+	        ObjectNode result = jsonResultUtils.getJsonResultWithMessage(session, "RegisterInsert.Register", param, "Result", "회원가입이 성공적으로 완료되었습니다.");
+	        
+	        return ResponseEntity.ok(result);
+
+	    } catch (Exception e) {
+	    	return handleDatabaseError(e, "registerUser");
+	    }
+	}
     
     // 아이디찾기 
     public ResponseEntity<?> idFindUser(Map<String, Object> param) {

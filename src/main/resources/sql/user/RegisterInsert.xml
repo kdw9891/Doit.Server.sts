@@ -4,22 +4,60 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="RegisterInsert">
 
-  <select id="Register" resultType="HashMap" parameterType="HashMap">
-	insert into tb_user (
+  <!-- 중복 확인 쿼리 추가 -->
+  <select id="CheckUserIdExists" parameterType="String" resultType="int">
+    SELECT COUNT(*) 
+    FROM tb_user
+    WHERE user_id = #{user_id};
+  </select>
+
+  <!-- 회원가입 -->
+  <insert id="Register" parameterType="HashMap">
+	INSERT INTO tb_user (
         user_id
     ,   password
     ,   user_nickname
     ,   email
     ,   use_yn
     ,   create_dt
-    ) values (
+    ) VALUES (
         #{user_id}
     ,   SHA2(#{password}, 256)
     ,   #{user_nickname}
     ,   #{email}
     ,   'Y'
-    ,   sysdate()
+    ,   CURRENT_TIMESTAMP()
     )
-  </select>
+  </insert>
+  
+  <!-- 초기 포인트 삽입 -->
+  <insert id="InsertInitialUserPoints" parameterType="HashMap">
+    INSERT INTO tb_user_total_points (
+        user_id
+	,   total_points
+	,	last_updated
+    ) VALUES (
+        #{user_id}
+    ,	0
+    ,	CURRENT_TIMESTAMP()
+    );
+  </insert>
+
+  <!-- 고양이 초기 데이터 삽입 -->
+  <insert id="InsertInitialUserCat" parameterType="HashMap">
+    INSERT INTO tb_user_cat (
+        user_id
+	,	cat_level
+	,	xp_total
+	,	create_dt
+	,	update_dt
+    ) VALUES (
+        #{user_id}
+    ,	1
+    ,	0
+    ,	CURRENT_TIMESTAMP()
+    ,	NULL
+    );
+  </insert>
   
 </mapper>
