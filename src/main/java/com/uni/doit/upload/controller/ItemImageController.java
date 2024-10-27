@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemImageController {
 
     @Autowired
-    private ImageService imageService;  // ImageService 주입
+    private ImageService imageService;
 
     @Operation(
         summary = "아이템 이미지 업로드",

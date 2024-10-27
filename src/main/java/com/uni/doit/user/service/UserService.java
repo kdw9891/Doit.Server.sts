@@ -37,8 +37,7 @@ public class UserService extends BaseService {
 	            "auth-token", token
 	        );
 
-	        return ResponseEntity.ok(response);
-
+	        return ResponseEntity.ok(response); 
 	    } catch (Exception e) {
 	        return handleDatabaseError(e, "loginUser");
 	    }
