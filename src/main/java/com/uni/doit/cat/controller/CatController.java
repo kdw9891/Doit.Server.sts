@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
-@Tag(name = "home")
+@Tag(name = "cat")
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/cat")
 public class CatController extends BaseController {
 	
     @Autowired

@@ -6,13 +6,14 @@
 
   <select id="Coin" resultType="HashMap" parameterType="HashMap">
    SELECT 
-    	a.cat_level,
-    	a.xp_total,
-    	b.total_points
+    	a.cat_level
+    ,	a.xp_total
+    ,	b.total_points
 	FROM 
     	tb_user_cat a
 	INNER JOIN 
-    	tb_user_total_points b ON a.user_id = b.user_id
+    	tb_user_total_points b ON 
+    	a.user_id = b.user_id
 	WHERE 
     	a.user_id = #{user_id};
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Timer">
+
+ <!-- 공부시간 history -->
+  <insert id="InsertStudyTime" parameterType="HashMap">
+    INSERT INTO 
+    	`tb_study_time` (
+		`user_id`
+	,	`week_number`
+	,	`study_time`
+	,	`create_dt`
+	) VALUES (
+		#{user_id}
+	,	#{week_number}
+	,	#{study_time}
+	,	NOW()
+	);
+  </insert>
+
+  <!-- 주차별 총 공부 시간 업데이트 (프로시저 호출) -->
+  <update id="UpdateStudyTime" parameterType="HashMap">
+    CALL 
+	sp_upd_study_time (
+		#{week_number}
+		);
+  </update>
+  
+  <!-- 사용자의 주차별 공부 시간 조회 -->
+  <select id="StudyTime" resultType="HashMap" parameterType="HashMap">
+    SELECT 
+      	user_id
+    ,	week_number
+    ,	total_study_time
+    FROM 
+      tb_total_study_time
+    WHERE 
+      user_id = #{user_id}
+  </select>
+</mapper>
