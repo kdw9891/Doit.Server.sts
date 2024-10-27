@@ -16,7 +16,28 @@
     	<mapper resource="sql/user/IdFindCheck.xml"/>
     	<mapper resource="sql/user/PassFindCheck.xml"/>
     	
-    	<!-- other -->
+    	<!-- cat -->
+    	<mapper resource="sql/cat/UserCat.xml"/>
+    	<mapper resource="sql/cat/UserCoin.xml"/>
+    	
+    	<!-- inventory -->
+    	<mapper resource="sql/inventory/InvDelete.xml"/>
+    	<mapper resource="sql/inventory/InvList.xml"/>
+    	
+    	<!-- rank -->
+    	<mapper resource="sql/rank/RankList.xml"/>
+    	
+    	<!-- store -->
+    	<mapper resource="sql/store/StoreInsert.xml"/>
+    	<mapper resource="sql/store/StoreList.xml"/>
+    	
+    	<!-- todo -->
+    	<mapper resource="sql/todo/TodoDelete.xml"/>
+    	<mapper resource="sql/todo/TodoInsert.xml"/>
+    	<mapper resource="sql/todo/TodoList.xml"/>
+    	
+    	<!-- upload -->
+    	<mapper resource="sql/upload/image/ImageInsert.xml"/>
     	
     </mappers>
 </configuration>
