@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Timer">
+  
+  <!-- study_time 저장 -->
+	<update id = "StudyTime" parameterType="HashMap">
+    	UPDATE 
+    		tb_study_time
+    	SET 
+    		study_time = #{study_time}
+    	WHERE 
+    		user_id = #{user_id} 
+    		week_number = #{week_number};
+	</update>
+
+	<!-- total_study_time 조회 -->
+	<select id="TotalStudyTime" resultType="Integer" parameterType="HashMap">
+    	SELECT 
+    		total_study_time
+    	FROM 
+    		tb_total_study_time
+    	WHERE 
+    		user_id = #{user_id} 
+    	AND week_number = #{week_number};
+	</select>
+
+	<!-- 동일하게 매칭되는 값이 없을 경우 INSERT -->
+	<insert id="InsertTotalStudyTime" parameterType="HashMap">
+    	INSERT INTO 
+    	tb_total_study_time (
+			user_id
+		,	week_number
+		,	total_study_time
+		)
+    	VALUES (
+			#{user_id}
+		,	#{week_number}
+		, 	(
+		SELECT
+			study_time 
+		FROM 
+			tb_study_time 
+		WHERE
+			user_id = #{user_id}
+		AND week_number = #{week_number})
+    	);
+	</insert>
+
+	<!-- 동일하게 매칭되는 값이 있을 경우 UPDATE -->
+	<update id="UpdateTotalStudyTime" parameterType="HashMap">
+    	UPDATE tb_total_study_time
+    	SET 
+    		total_study_time = total_study_time + 
+        	(SELECT study_time 
+        	FROM 
+        		tb_study_time 
+        	WHERE 
+        		user_id = #{user_id} 
+        	AND 
+        		week_number = #{week_number})
+    	WHERE 
+    		user_id = #{user_id} 
+    	AND week_number = #{week_number};
+	</update>
+
+	<!-- 프로시저 호출 -->
+	<update id="UpdateStudyTimeProcedure" parameterType="HashMap">
+    	CALL 
+    	sp_upd_study_time (
+			#{week_number}
+		);
+	</update>
+</mapper>
