@@ -14,9 +14,13 @@ import java.util.UUID;
 @Service
 public class ImageUploadUtil {
 
-    // 파일 경로를 application.properties 또는 application.yml에서 주입받음
+	// 파일 저장 경로
     @Value("${file.upload-dir}")
     private String uploadDir;
+    
+    // 환경에 맞는 서버 URL
+    @Value("${server.url}")
+    private String serverUrl;
 
     // 파일 확장자 검증
     public boolean isValidImageFile(MultipartFile file) {
@@ -61,7 +65,7 @@ public class ImageUploadUtil {
         // 파일 저장
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/images/" + itemId + "/" + fileName;
+        return serverUrl + "/images/" + itemId + "/" + fileName;
     }
 
     // 원본 파일 이름으로 파일 저장
