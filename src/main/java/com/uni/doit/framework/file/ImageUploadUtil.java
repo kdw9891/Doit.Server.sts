@@ -94,7 +94,7 @@ public class ImageUploadUtil {
         // 파일 저장
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/images/" + itemId + "/" + fileName;
+        return serverUrl + "/images/" + itemId + "/" + fileName;
     }
 
     // 파일 삭제 메서드 (선택 사항)
