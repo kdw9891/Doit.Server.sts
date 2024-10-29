@@ -16,9 +16,8 @@
 	    tb_user u ON ts.user_id = u.user_id
 	WHERE
 		1=1
-		<if test="week_number != null">
-            AND ts.week_number = #{week_number}
-        </if>
+		AND u.user_id = #{user_id}
+        AND ts.week_number = WEEK(CURRENT_DATE)
 	ORDER BY
     	ts.week_number,
     	ts.total_study_time DESC;
