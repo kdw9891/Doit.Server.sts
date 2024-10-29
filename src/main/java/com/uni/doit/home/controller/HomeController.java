@@ -1,13 +1,14 @@
 package com.uni.doit.home.controller;
 
 import com.uni.doit.framework.utils.BaseController;
+import com.uni.doit.framework.utils.ParamUtils;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.uni.doit.home.dto.*;
 import com.uni.doit.home.service.HomeService;
 
 import java.io.IOException;
@@ -25,28 +26,16 @@ public class HomeController extends BaseController {
         this.homeService = homeService;
     }
 
-    @GetMapping("/home")
-    public ResponseEntity<?> HomeUser(@RequestBody HomeRequest homeRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(homeRequest, "user_id", "cat_level", "xp_total", "total_points");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
+    @GetMapping("/list")
+    public ResponseEntity<?> HomeList(@RequestParam String user_id) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
         
-        Map<String, Object> params = validationResult.getBody();
-        
-        return homeService.homeUser(params);
+        return homeService.homeList(params);
     }
     
     @GetMapping("/timer")
-    public ResponseEntity<?> TimerUser(@RequestBody TimerRequest timerRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(timerRequest, "user_id", "week_number", "total_study_time");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
-        
-        Map<String, Object> params = validationResult.getBody();
+    public ResponseEntity<?> TimerUser(@RequestParam String user_id, Integer study_time) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "study_time", study_time);
         
         return homeService.timerUser(params);
     }
