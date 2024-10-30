@@ -12,6 +12,6 @@ public class TimerRequest {
     private String user_id;
     
     @JsonProperty("study_time")
-    private String study_time;
+    private Long study_time;
     
 }

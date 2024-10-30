@@ -12,8 +12,8 @@ public class CatRequest {
     private String user_id;
     
     @JsonProperty("cat_level")
-    private String cat_level;
+    private Long cat_level;
     
     @JsonProperty("xp_total")
-    private String xp_total;
+    private Long xp_total;
 }

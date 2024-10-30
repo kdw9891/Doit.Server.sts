@@ -4,6 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StoreList">
 
+  <!-- 아이템 카테고리 List -->
+  <select id="SelectCategory" resultType="HashMap" parameterType="HashMap">
+	SELECT 
+	    category_id
+	,   category_name
+	FROM 
+	    tb_item_categories
+  </select>
+
   <!-- 카테고리 별 아이템 List -->
   <select id="SelectItem" resultType="HashMap" parameterType="HashMap">
 	SELECT 
@@ -11,19 +20,22 @@
 	,   i.item_name
 	,   i.item_description
 	,   i.item_price
-	,   i.item_category
+	,   c.category_name AS item_category
 	,   i.item_rarity
 	,   i.is_available
 	,   i.created_at
 	,   img.image_url
 	,   img.image_description
 	FROM 
-	    DOIT.tb_items i
+	    tb_items i
 	LEFT JOIN 
-	    DOIT.tb_item_images img
+	    tb_item_images img
 	    ON i.item_id = img.item_id
+	LEFT JOIN 
+	    tb_item_categories c
+	    ON i.category_id = c.category_id
 	WHERE
-	    i.item_category = #{item_category}
+	    c.category_name = #{item_category}
 	ORDER BY 
 	    i.item_price ASC;
   </select>

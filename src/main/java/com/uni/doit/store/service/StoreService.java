@@ -11,6 +11,19 @@ import java.util.Map;
 @Service
 public class StoreService extends BaseService {
 
+	// 카테고리 List
+	public ResponseEntity<?> categoryList(Map<String, Object> param) {
+        try {
+        	SqlSession session = getSession();
+            
+        	return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "StoreList.SelectCategory", param, "Result"));
+        	
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("카테고리 목록 조회 중 오류 발생: " + e.getMessage());
+        }
+    }
+	
+	// 아이템 List
     public ResponseEntity<?> itemList(Map<String, Object> param) {
         try {
         	SqlSession session = getSession();
@@ -22,6 +35,7 @@ public class StoreService extends BaseService {
         }
     }
 	
+    // 아이템 구매
 	public ResponseEntity<?> purchaseItem(Map<String, Object> params) {
 	    try {
 	    	SqlSession session = getSession();
