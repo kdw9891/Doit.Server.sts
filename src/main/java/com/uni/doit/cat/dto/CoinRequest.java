@@ -12,6 +12,6 @@ public class CoinRequest {
     private String user_id;
     
     @JsonProperty("total_points")
-    private String total_points;
+    private Long total_points;
 
 }

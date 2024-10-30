@@ -14,7 +14,7 @@ public class RankService extends BaseService {
             return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "RankList.SelectRank", param, "Result"));
         }
         catch (Exception e) {
-            return handleDatabaseError(e, "homeUser");
+            return handleDatabaseError(e, "rank");
         }
     }
     

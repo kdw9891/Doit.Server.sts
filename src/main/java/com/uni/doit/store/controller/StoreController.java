@@ -1,6 +1,8 @@
 package com.uni.doit.store.controller;
 
 import com.uni.doit.framework.utils.BaseController;
+import com.uni.doit.framework.utils.ParamUtils;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,16 @@ public class StoreController extends BaseController {
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
     }
-
+    
+    // 카테고리
+    @GetMapping("/category")
+    public ResponseEntity<?> CategoryList() throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams();
+        
+        return storeService.itemList(params);
+    }
+    
+    // 아이템
     @PostMapping("/items")
     public ResponseEntity<?> ItemList(@RequestBody ItemRequest itemRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(itemRequest, "item_category");
@@ -35,11 +46,12 @@ public class StoreController extends BaseController {
         
         Map<String, Object> params = validationResult.getBody();
         
-        return storeService.itemList(params);
+        return storeService.categoryList(params);
     }
 
     /**
-     * @param quantity 아이템 수량 
+     * @param quantity 아이템 수량
+     * 아이템 구매 
      */
     @PostMapping("/purchase")
     public ResponseEntity<?> purchaseItem(@RequestBody PurchaseRequest purchaseRequest) throws IOException {
