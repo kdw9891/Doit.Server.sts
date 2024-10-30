@@ -16,6 +16,10 @@
     	<mapper resource="sql/user/IdFindCheck.xml"/>
     	<mapper resource="sql/user/PassFindCheck.xml"/>
     	
+    	<!-- home -->
+    	<mapper resource="sql/home/HomeList.xml"/>
+    	<mapper resource="sql/home/TimerInsert.xml"/>
+    	
     	<!-- cat -->
     	<mapper resource="sql/cat/UserCat.xml"/>
     	<mapper resource="sql/cat/UserCoin.xml"/>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TimerInsert">
+  
+  	<!-- 공부 시간 기록 및 보상 프로시저 호출 쿼리 -->
+  	<insert id="InsertTimeReward" parameterType="HashMap">
+   		CALL sp_insert_study_time_and_reward (
+			#{user_id}
+        ,  	#{study_time}
+        );
+	</insert>
+  
+  	<!-- 사용자 별 공부 시간 삽입 -->
+	<insert id="StudyTimeInsert" parameterType="HashMap">
+    	INSERT INTO tb_study_time (
+			user_id
+		,	week_number
+		,	study_time
+		,	create_dt
+		) VALUES (
+			#{user_id}
+		,	WEEK(CURRENT_DATE)
+		,	#{study_time}
+		,	CURRENT_TIMESTAMP
+		);
+	</insert>
+	
+	<!-- 공부 시간에 따른 보상 정보 쿼리 -->
+	<select id="StudyRewardList" parameterType="HashMap" resultType="HashMap">
+    	SELECT 
+        	xp_reward
+        ,	points_reward
+    	FROM 
+        	tb_study_xp
+    	WHERE 
+        	study_time <![CDATA[<=]]> #{study_time}
+    	ORDER BY 
+        	study_time DESC 
+    	LIMIT 1
+	</select>
+	
+	<!-- 공부 시간 보상 삽입 쿼리 (고양이 경험치) -->
+	<update id="StudyCatRewardUpdate" parameterType="HashMap">
+    	UPDATE tb_user_cat
+    	SET 
+        	xp_total = xp_total + #{xp_reward},
+        	update_dt = CURRENT_TIMESTAMP
+    	WHERE 
+        	user_id = #{user_id};
+	</update>
+	
+	<!-- 공부 시간 보상 삽입 쿼리 (포인트) -->
+	<insert id="StudyRewardInsert" parameterType="HashMap">
+    	INSERT INTO tb_user_total_points (
+			user_id
+		,	total_points
+		,	last_updated
+		) VALUES (
+			#{user_id}
+		,	#{points_reward}
+		,	CURRENT_TIMESTAMP
+		) ON DUPLICATE KEY UPDATE 
+        	total_points = total_points + #{points_reward}, 
+        	last_updated = CURRENT_TIMESTAMP;
+	</insert>
+
+	<!-- 포인트 적립 이력 삽입 쿼리 -->
+	<insert id="PointHistoryInsert" parameterType="HashMap">
+    	INSERT INTO tb_user_point_history (
+			user_id
+		,	point_add
+		,	add_comment
+		,	add_dt
+		) VALUES (
+			#{user_id}
+		,	#{points_reward}
+		,	'공부 시간 보상'
+		,	CURRENT_TIMESTAMP
+		);
+	</insert>
+
+
+</mapper>
