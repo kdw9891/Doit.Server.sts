@@ -5,9 +5,11 @@ import java.util.Map;
 import com.uni.doit.framework.utils.BaseService;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RankService extends BaseService {
-	// 홈 List 
+	// 랭크 List
     public ResponseEntity<?> rankList(Map<String, Object> param) {
         try {
             SqlSession session = getSession();

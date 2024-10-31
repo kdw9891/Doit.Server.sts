@@ -26,14 +26,15 @@ public class InvController extends BaseController {
         this.invService = invService;
     }
     
-    // 카테고리
+    // 카테고리 리스트
     @GetMapping("/category")
     public ResponseEntity<?> categoryList() throws IOException {
     	Map<String, Object> params = ParamUtils.createParams();
         
         return invService.categoryList(params);
     }
-
+    
+    // 인벤토리 리스트
     @GetMapping("/inv")
     public ResponseEntity<?> invUser(@RequestBody InvRequest invRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(invRequest, "user_id", "inventory_id", "item_id");
@@ -47,6 +48,7 @@ public class InvController extends BaseController {
         return invService.invList(params);
     }
     
+    // 소모품 사용
     @PostMapping("/uses")
     public ResponseEntity<?> useItem(@RequestBody UseRequest useRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(useRequest, "user_id", "item_id", "quantity");
@@ -60,6 +62,7 @@ public class InvController extends BaseController {
         return invService.useItem(params);
     }
     
+    // 아이템 착용
     @PostMapping("/equips")
     public ResponseEntity<?> equipItem(@RequestBody UseRequest useRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(useRequest, "user_id", "item_id", "quantity");
