@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class InvRequest {
+public class UseRequest {
     
     @JsonProperty("user_id")
     private String user_id;
     
-    @JsonProperty("inventory_id")
-    private String inventory_id;
-    
     @JsonProperty("item_id")
     private String item_id;
+    
+    @JsonProperty("quantity")
+    private String quantity;
 }

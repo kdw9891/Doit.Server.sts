@@ -14,6 +14,17 @@
     		`inventory_id` = #{inventory_id}
     		AND `quantity` > 0;
     </update>
+    
+     <!-- 의상/오브젝트를 자동으로 착용하도록 하고 is_equipped 업데이트 -->
+	<update id="EquipItem" parameterType="HashMap">
+   		UPDATE 
+   			`tb_user_inventory`
+    	SET 
+    	    `is_equipped` = 1 
+    	WHERE 
+        	inventory_id = #{inventory_id} 
+        	AND quantity > 0;
+	</update>
   
   	<!-- 사용 이력 테이블에 내역 추가 -->
   	<insert id="InsertUseItem" parameterType="HashMap">
