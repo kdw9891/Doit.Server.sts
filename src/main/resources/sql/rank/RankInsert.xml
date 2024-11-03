@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RankInsert">
+
+	<!-- 랭킹 기록 삽입 쿼리 -->
+ 	<insert id="InsertRankHistory" parameterType="HashMap">
+	    INSERT 
+	        ts.user_id,	
+	        u.user_nickname,
+	        ts.week_number,
+	        ts.total_study_time
+	    FROM 
+	        tb_total_study_time ts
+	    LEFT JOIN 
+	        tb_user u ON ts.user_id = u.user_id
+	    WHERE
+	        1=1
+	         AND u.user_id = #{user_id}
+	         AND ts.week_number = WEEK(CURRENT_DATE)
+	       
+	    ORDER BY
+	        ts.week_number,
+	        ts.total_study_time DESC;
+ 	</insert>
+</mapper>

@@ -31,12 +31,13 @@ public class RankController extends BaseController {
         
         return rankService.rankList(params);
     }
+    
 //	  주차 선택하여 리스트 보내주는 서비스 수정 필요
-//    @GetMapping("/weeklist")
-//    public ResponseEntity<?> HomeList(@RequestParam String user_id) throws IOException {
-//    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
-//        
-//        return rankService.rankList(params);
-//    }
+    @GetMapping("/weeklist")
+    public ResponseEntity<?> WeekList(@RequestParam String user_id) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
+        
+        return rankService.rankList(params);
+    }
     
 }
