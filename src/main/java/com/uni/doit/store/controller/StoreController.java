@@ -32,7 +32,7 @@ public class StoreController extends BaseController {
     public ResponseEntity<?> CategoryList() throws IOException {
     	Map<String, Object> params = ParamUtils.createParams();
         
-        return storeService.itemList(params);
+        return storeService.categoryList(params);
     }
     
     // 아이템
@@ -40,7 +40,7 @@ public class StoreController extends BaseController {
     public ResponseEntity<?> ItemList(@RequestParam String item_category) throws IOException {
     	Map<String, Object> params = ParamUtils.createParams("item_category", item_category);
         
-        return storeService.categoryList(params);
+        return storeService.itemList(params);
     }
 
     /**
@@ -59,5 +59,5 @@ public class StoreController extends BaseController {
         
         return storeService.purchaseItem(params);
     }
-    
+
 }
