@@ -6,17 +6,20 @@
 
 	<select id="HomeSelect" resultType="HashMap" parameterType="HashMap">
     	SELECT 
-   		 	a.user_id
-		,   a.cat_level
-		,   a.xp_total
-		,   b.total_points
+    		u.user_id
+    	,	u.cat_level
+    	,   u.xp_total
+    	,   l.xp_required as current_level_total_xp
+    	,   l2.xp_required as next_level_total_xp
+    	,   COALESCE(ROUND((u.xp_total * 100.0 / NULLIF(l.xp_required, 0)), 0), 0) as progress_percent
+    	,   b.total_points
 		FROM 
-		    tb_user_cat a
-		LEFT JOIN 
-	    	tb_user_total_points b
-   			ON a.user_id = b.user_id
-    	WHERE
-			1=1
-        	AND a.user_id = #{user_id}
+    		tb_user_cat u
+    	JOIN tb_cat_level l ON u.cat_level = l.cat_level
+    	JOIN tb_cat_level l2 ON u.cat_level + 1 = l2.cat_level
+    	LEFT JOIN tb_user_total_points b ON u.user_id = b.user_id
+		WHERE 
+	    	u.user_id = #{user_id}
 	</select>
+	
 </mapper>
