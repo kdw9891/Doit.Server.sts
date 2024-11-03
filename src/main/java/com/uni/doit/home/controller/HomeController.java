@@ -33,7 +33,7 @@ public class HomeController extends BaseController {
         return homeService.homeList(params);
     }
     
-    @GetMapping("/timer")
+    @PostMapping("/timer")
     public ResponseEntity<?> TimerUser(@RequestParam String user_id, Integer study_time) throws IOException {
     	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "study_time", study_time);
         

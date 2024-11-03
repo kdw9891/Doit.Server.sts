@@ -32,21 +32,15 @@ public class StoreController extends BaseController {
     public ResponseEntity<?> CategoryList() throws IOException {
     	Map<String, Object> params = ParamUtils.createParams();
         
-        return storeService.itemList(params);
+        return storeService.categoryList(params);
     }
     
     // 아이템
-    @PostMapping("/items")
-    public ResponseEntity<?> ItemList(@RequestBody ItemRequest itemRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(itemRequest, "item_category");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
+    @GetMapping("/items")
+    public ResponseEntity<?> ItemList(@RequestParam String item_category) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("item_category", item_category);
         
-        Map<String, Object> params = validationResult.getBody();
-        
-        return storeService.categoryList(params);
+        return storeService.itemList(params);
     }
 
     /**
@@ -65,5 +59,5 @@ public class StoreController extends BaseController {
         
         return storeService.purchaseItem(params);
     }
-    
+
 }

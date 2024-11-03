@@ -35,7 +35,7 @@ public class InvController extends BaseController {
     }
     
     // 인벤토리 리스트
-    @GetMapping("/inv")
+    @GetMapping("/list")
     public ResponseEntity<?> invUser(@RequestBody InvRequest invRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(invRequest, "user_id", "inventory_id", "item_id");
 
@@ -49,7 +49,7 @@ public class InvController extends BaseController {
     }
     
     // 소모품 사용
-    @PostMapping("/uses")
+    @PutMapping("/uses")
     public ResponseEntity<?> useItem(@RequestBody UseRequest useRequest) throws IOException {
         ResponseEntity<Map<String, Object>> validationResult = validateDto(useRequest, "user_id", "item_id", "quantity");
 

@@ -15,40 +15,46 @@
 
   <!-- 카테고리 별 아이템 List -->
   <select id="SelectItem" resultType="HashMap" parameterType="HashMap">
-	SELECT 
-	    i.item_id
-	,   i.item_name
-	,   i.item_description
-	,   i.item_price
-	,   c.category_name AS item_category
-	,   i.item_rarity
-	,   i.is_available
-	,   i.created_at
-	,   img.image_url
-	,   img.image_description
+	SELECT
+    	i.item_id
+    ,   i.item_name
+    ,   i.item_description
+    ,   i.item_price
+    ,   c.category_name AS item_category
+    ,   i.item_rarity
+    ,   i.is_available
+    ,   i.created_at
+    ,   img.image_url
+    ,   img.image_description
+    ,   GROUP_CONCAT(CONCAT(e.effect_type, ': ', e.effect_value, IF(e.duration IS NOT NULL, CONCAT(' (', e.duration, '초)'), '')) SEPARATOR ', ') AS item_effects
 	FROM 
-	    tb_items i
+    	tb_items i
 	LEFT JOIN 
-	    tb_item_images img
+	    tb_item_images img 
 	    ON i.item_id = img.item_id
 	LEFT JOIN 
-	    tb_item_categories c
-	    ON i.category_id = c.category_id
+    	tb_item_categories c 
+    	ON i.category_id = c.category_id
+	LEFT JOIN 
+    	tb_item_effects e
+    	ON i.item_id = e.item_id
 	WHERE
-	    c.category_name = #{item_category}
+    	c.category_name = #{item_category}
+	GROUP BY 
+	    i.item_id
 	ORDER BY 
 	    i.item_price ASC;
   </select>
   
   <!-- 특정 아이템의 가격 및 구매 가능 여부 확인 -->
-    <select id="SelectItemPrice" parameterType="int" resultType="HashMap">
-        SELECT
-        	item_price
+  <select id="SelectItemPrice" parameterType="int" resultType="HashMap">
+  	SELECT
+    	item_price
         ,	is_available
-        FROM
-        	tb_items
-        WHERE
-        	item_id = #{item_id};
-    </select>
+    FROM
+       	tb_items
+    WHERE
+      	item_id = #{item_id};
+  </select>
   
 </mapper>
