@@ -1,6 +1,5 @@
 package com.uni.doit.inventory.controller;
 
-import com.uni.doit.inventory.dto.*;
 import com.uni.doit.inventory.service.InvService;
 import com.uni.doit.framework.utils.BaseController;
 import com.uni.doit.framework.utils.ParamUtils;
@@ -36,43 +35,18 @@ public class InvController extends BaseController {
     
     // 인벤토리 리스트
     @GetMapping("/list")
-    public ResponseEntity<?> invUser(@RequestBody InvRequest invRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(invRequest, "user_id", "inventory_id", "item_id");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
-
-        Map<String, Object> params = validationResult.getBody();
+    public ResponseEntity<?> invUser(@RequestParam String user_id) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);
 
         return invService.invList(params);
     }
-    
-    // 소모품 사용
-    @PutMapping("/uses")
-    public ResponseEntity<?> useItem(@RequestBody UseRequest useRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(useRequest, "user_id", "item_id", "quantity");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
-
-        Map<String, Object> params = validationResult.getBody();
-
+ 
+    // 아이템 사용
+    @PutMapping("/itemuse")
+    public ResponseEntity<?> useItem(@RequestParam String user_id, String inventory_id, Integer item_id) {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "inventory_id", inventory_id, "item_id", item_id);
+    	
         return invService.useItem(params);
     }
     
-    // 아이템 착용
-    @PostMapping("/equips")
-    public ResponseEntity<?> equipItem(@RequestBody UseRequest useRequest) throws IOException {
-        ResponseEntity<Map<String, Object>> validationResult = validateDto(useRequest, "user_id", "item_id", "quantity");
-
-        if (validationResult.getStatusCode().is4xxClientError()) {
-            return validationResult;
-        }
-
-        Map<String, Object> params = validationResult.getBody();
-
-        return invService.equipItem(params);
-    }
 }

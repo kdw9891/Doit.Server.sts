@@ -2,43 +2,13 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="IvnDelete">
+<mapper namespace="InvDelete">
 
-	<!-- 사용된 아이템의 수량을 줄이고 quantity가 0이 되면 is_used를 업데이트 -->
-	<update id="DeleteItem" parameterType="HashMap">
-    	UPDATE `tb_user_inventory`
-		SET `quantity` = `quantity` - 1,
-    		`is_used` = CASE WHEN `quantity` - 1 = 0 THEN 1 ELSE `is_used` END,
-    		`used_date` = CASE WHEN `quantity` - 1 = 0 THEN NOW() ELSE `used_date` END
-		WHERE 
-    		`inventory_id` = #{inventory_id}
-    		AND `quantity` > 0;
-    </update>
-    
-     <!-- 의상/오브젝트를 자동으로 착용하도록 하고 is_equipped 업데이트 -->
-	<update id="EquipItem" parameterType="HashMap">
-   		UPDATE 
-   			`tb_user_inventory`
-    	SET 
-    	    `is_equipped` = 1 
-    	WHERE 
-        	inventory_id = #{inventory_id} 
-        	AND quantity > 0;
-	</update>
-  
-  	<!-- 사용 이력 테이블에 내역 추가 -->
-  	<insert id="InsertUseItem" parameterType="HashMap">
- 		INSERT INTO `tb_user_item_usage` (
-    		`inventory_id`
-		,   `user_id`
-		,   `item_id`
-		,   `used_date`
-		) VALUES (
-    		#{inventory_id}
-		,   #{user_id}
-		,   #{item_id}
-		,   NOW()
-		);
-  	</insert>
-  
+    <!-- 사용된 아이템 삭제: 만약 아이템 수량이 0이면 삭제 -->
+    <delete id="DeleteZeroQuantityItem" parameterType="HashMap">
+        DELETE FROM `tb_user_inventory`
+        WHERE 
+            `inventory_id` = #{inventory_id} AND `quantity` = 0;
+    </delete>
+
 </mapper>

@@ -1,11 +1,10 @@
 package com.uni.doit.inventory.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.uni.doit.framework.utils.BaseService;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
 
 @Service
@@ -33,71 +32,65 @@ public class InvService extends BaseService {
 		}
 	}
 	
-	//소모품 사용 
+	// 아이템 사용
 	public ResponseEntity<?> useItem(Map<String, Object> param) {
-	    try {
-	        SqlSession session = getSession();
+        try (SqlSession session = getSession()) {
+            // 아이템 정보 조회
+            ObjectNode itemInfo = jsonResultUtils.getJsonResult(session, "InvList.SelectInv", param);
 
-	        // 아이템 정보 조회
-	        Map<String, Object> useInfo = session.selectOne("InvList.SelectInv", param);
+            // 아이템이 존재하지 않을 경우
+            if (!"00".equals(itemInfo.get("RSLT_CD").asText())) {
+                return ResponseEntity.badRequest().body("아이템을 사용할 수 없습니다.");
+            }
 
-	        // 아이템이 존재하지 않을 경우 
-	        if (useInfo == null) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이템을 사용할 수 없습니다.");
-	        }
+            // 카테고리에 따라 처리
+            String category = itemInfo.has("item_category") ? itemInfo.get("item_category").asText() : null;
+            if ("소비".equals(category)) {
+                return consumeItem(session, param);
+            } else if ("의상".equals(category)) {
+                return equipItem(session, param, "EquipWearableItem");
+            } else if ("오브젝트".equals(category)) {
+                return equipItem(session, param, "EquipObjectItem");
+            } else {
+                return ResponseEntity.badRequest().body("알 수 없는 아이템 카테고리입니다.");
+            }
+        } catch (Exception e) {
+            return handleDatabaseError(e, "useItem");
+        }
+    }
 
-	        int quantity = (int) useInfo.get("quantity");
-	        	        
-	        if (quantity > 0) {
-	            // 수량 감소 및 사용 기록 추가
-	            session.update("IvnDelete.DeleteItem", param);
-	            session.insert("IvnDelete.InsertUseItem", param);
+    // 소비 아이템 사용 시 로직
+    private ResponseEntity<?> consumeItem(SqlSession session, Map<String, Object> param) {
+        try {
+            // 아이템 수량 감소 및 사용 기록 추가
+            session.update("InvUpdate.ConsumeItem", param);
+            session.insert("InvInsert.InsertUseLog", param);
 
-	            return ResponseEntity.ok("아이템 사용이 완료되었습니다.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이템 수량이 부족합니다.");
-	        }
-	    } catch (Exception e) {
-	        return handleDatabaseError(e, "useItem");
-	    }
-	}
-	
-	// 아이템 착용 
-	public ResponseEntity<?> equipItem(Map<String, Object> param) {
-	    try {
-	        SqlSession session = getSession();
+            // 사용 후 수량이 0이면 삭제
+            session.delete("InvDelete.DeleteZeroQuantityItem", param);
 
-	        // 아이템 정보 조회
-	        Map<String, Object> itemInfo = session.selectOne("Inventory.SelectItem", param);
+            return ResponseEntity.ok("소비 아이템 사용이 완료되었습니다.");
+        } catch (Exception e) {
+            return handleDatabaseError(e, "consumeItem");
+        }
+    }
+    
+    // 오브젝트 및 착장템 착용 로직
+    private ResponseEntity<?> equipItem(SqlSession session, Map<String, Object> param, String equipStatement) {
+        try {
+            // 현재 착용 중인지 확인
+            ObjectNode equipInfo = jsonResultUtils.getJsonResult(session, "InvList.SelectInv", param);
+            if ("1".equals(String.valueOf(equipInfo.get("is_equipped")))) {
+                return ResponseEntity.ok("이미 착용 중인 아이템입니다.");
+            }
 
-	        // 아이템이 존재하지 않는 경우
-	        if (itemInfo == null) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이템이 존재하지 않습니다.");
-	        }
-
-	       // 아이템 수량 확인
-	        int quantity = (int) itemInfo.get("quantity");
-	        if (quantity < 0) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이템 수량이 부족합니다.");
-	        }
-
-	        // 현재 착용 중인 아이템 조회
-	        Map<String, Object> equipInfo = session.selectOne("Inventory.EquipItem", param);
-
-	        // 착용 상태 확인
-	        if (equipInfo != null && "1".equals(equipInfo.get("is_equipped").toString())) {
-	            return ResponseEntity.ok("이미 착용 중인 아이템입니다.");
-	        }
-
-	        // 새로운 아이템 착용 처리
-	        param.put("is_equipped", "1");
-	        session.update("Inventory.EquipItem", param); // 새 아이템 착용
-
-	        return ResponseEntity.ok("아이템이 착용되었습니다.");
-	    } catch (Exception e) {
-	        return handleDatabaseError(e, "equipItem");
-	    }
-	}
+            // 새 아이템 착용
+            session.update("InvUpdate." + equipStatement, param);
+            return ResponseEntity.ok("아이템이 착용되었습니다.");
+        } catch (Exception e) {
+            return handleDatabaseError(e, "equipItem");
+        }
+    }
 }
 
 

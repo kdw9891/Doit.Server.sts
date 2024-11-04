@@ -25,6 +25,7 @@ public class RankController extends BaseController {
         this.rankService = rankService;
     }
     
+    // select 하는 해당 날짜의 주차 랭킹 list
     @GetMapping("/list")
     public ResponseEntity<?> HomeList(@RequestParam String user_id) throws IOException {
     	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
@@ -32,12 +33,12 @@ public class RankController extends BaseController {
         return rankService.rankList(params);
     }
     
-//	  주차 선택하여 리스트 보내주는 서비스 수정 필요
-    @GetMapping("/weeklist")
-    public ResponseEntity<?> WeekList(@RequestParam String user_id) throws IOException {
-    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
+    // 주차 선택하여 리스트 보내주는 서비스
+    @GetMapping("/history")
+    public ResponseEntity<?> WeekList(@RequestParam String user_id, String search_date) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "search_date", search_date);       
         
-        return rankService.rankList(params);
+        return rankService.rankHistory(params);
     }
     
 }

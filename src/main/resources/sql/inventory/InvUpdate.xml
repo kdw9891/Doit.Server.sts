@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="InvUpdate">
+
+    <!-- 소비 아이템 사용: 수량 감소 및 사용 상태 업데이트 -->
+    <update id="ConsumeItem" parameterType="HashMap">
+        UPDATE `tb_user_inventory`
+        SET 
+            `quantity` = `quantity` - 1,
+            `is_used` = CASE WHEN `quantity` - 1 = 0 THEN 1 ELSE `is_used` END,
+            `used_date` = CASE WHEN `quantity` - 1 = 0 THEN NOW() ELSE `used_date` END
+        WHERE 
+            `inventory_id` = #{inventory_id} AND `quantity` > 0;
+    </update>
+
+    <!-- 의상 아이템 착용 처리 -->
+    <update id="EquipWearableItem" parameterType="HashMap">
+        UPDATE 
+            `tb_user_inventory`
+        SET 
+            `is_equipped` = 1
+        WHERE 
+            `inventory_id` = #{inventory_id} AND `quantity` > 0;
+    </update>
+
+    <!-- 오브젝트 아이템 장착 처리 -->
+    <update id="EquipObjectItem" parameterType="HashMap">
+        UPDATE 
+            `tb_user_inventory`
+        SET 
+            `is_equipped` = 1
+        WHERE 
+            `inventory_id` = #{inventory_id} AND `quantity` > 0;
+    </update>
+
+</mapper>
