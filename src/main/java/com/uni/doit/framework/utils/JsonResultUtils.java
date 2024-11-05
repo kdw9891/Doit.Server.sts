@@ -52,7 +52,7 @@ public class JsonResultUtils {
     }
 
     public ObjectNode getJsonResult(SqlSession session, String statement, Map<String, Object> param) {
-        return getJsonResult(session, statement, param, "result");
+        return getJsonResult(session, statement, param, "Result");
     }
     
     public ObjectNode getJsonResultWithMessage(SqlSession session, String statement, Map<String, Object> param, String arrayKey, String message) {

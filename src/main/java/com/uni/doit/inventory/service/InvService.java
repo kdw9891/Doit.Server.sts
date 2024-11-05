@@ -34,7 +34,8 @@ public class InvService extends BaseService {
 	
 	// 아이템 사용
 	public ResponseEntity<?> useItem(Map<String, Object> param) {
-        try (SqlSession session = getSession()) {
+        try {
+        	SqlSession session = getSession();
             // 아이템 정보 조회
             ObjectNode itemInfo = jsonResultUtils.getJsonResult(session, "InvList.SelectInv", param);
 
@@ -45,6 +46,7 @@ public class InvService extends BaseService {
 
             // 카테고리에 따라 처리
             String category = itemInfo.has("item_category") ? itemInfo.get("item_category").asText() : null;
+            System.out.println("Item Category: " + category);
             if ("소비".equals(category)) {
                 return consumeItem(session, param);
             } else if ("의상".equals(category)) {
