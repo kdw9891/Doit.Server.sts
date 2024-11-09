@@ -11,7 +11,7 @@
     	,   u.xp_total
     	,   l.xp_required AS current_level_total_xp
     	,   l2.xp_required AS next_level_total_xp
-    	,   COALESCE(ROUND((u.xp_total * 100.0 / NULLIF(l.xp_required, 0)), 0), 0) AS progress_percent
+    	,   LEAST(COALESCE(ROUND((u.xp_total * 100.0 / NULLIF(l.xp_required, 0)), 0), 0), 100) AS progress_percent
     	,   b.total_points
 		FROM 
     		tb_user_cat u
