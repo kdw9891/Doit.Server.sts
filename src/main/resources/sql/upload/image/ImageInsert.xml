@@ -9,13 +9,11 @@
 			item_id
 		,	image_url
 		,	image_description
-		,	is_primary
 		,	created_at
 		) VALUES (
 			#{item_id}
 		,	#{image_url}
 		,	#{image_description}
-		,	#{is_primary}
 		,	NOW()
 		)
     </insert>
