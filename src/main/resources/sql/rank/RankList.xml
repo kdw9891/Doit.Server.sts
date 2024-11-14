@@ -7,38 +7,41 @@
   <select id="SelectRank" resultType="HashMap" parameterType="HashMap">
 	SELECT 
     	ts.user_id
-    ,   u.user_nickname
-    ,   ts.week_number
-    ,   ts.total_study_time
+    ,  	u.user_nickname
+    ,  	ts.week_number
+    ,  	ts.total_study_time
+    ,  	RANK() OVER (ORDER BY ts.total_study_time DESC) AS rank
 	FROM 
-    	tb_total_study_time ts
+	    tb_total_study_time ts
 	LEFT JOIN 
-	    tb_user u ON ts.user_id = u.user_id
+    	tb_user u ON ts.user_id = u.user_id
 	WHERE
-		1=1
-		AND u.user_id = #{user_id}
-        AND ts.week_number = WEEK(CURRENT_DATE, 1)
-	ORDER BY
-    	ts.week_number,
-    	ts.total_study_time DESC;
+   		ts.week_number = WEEK(CURRENT_DATE, 1)
+   		<if test="user_id != null">
+            AND ts.user_id = #{user_id}
+        </if>
+	ORDER BY 
+    	rank;
   </select>
 	
   <select id="SelectWeekRank" resultType="HashMap" parameterType="HashMap">
-	SELECT 
-    	ts.user_id
+	SELECT
+        ts.user_id
     ,   u.user_nickname
     ,   ts.week_number
     ,   ts.total_study_time
-	FROM 
-    	tb_total_study_time ts
-	LEFT JOIN 
-	    tb_user u ON ts.user_id = u.user_id
-	WHERE
-		u.user_id = #{user_id}
-        AND ts.week_number = WEEK(#{search_date}, 1)
-	ORDER BY
-    	ts.week_number,
-    	ts.total_study_time DESC;
+    ,   RANK() OVER (ORDER BY ts.total_study_time DESC) AS rank
+    FROM 
+        tb_total_study_time ts
+    LEFT JOIN 
+        tb_user u ON ts.user_id = u.user_id
+    WHERE
+        ts.week_number = #{week_number}
+        <if test="user_id != null">
+            AND ts.user_id = #{user_id}
+        </if>
+    ORDER BY 
+        rank;
   </select>
   
 </mapper>

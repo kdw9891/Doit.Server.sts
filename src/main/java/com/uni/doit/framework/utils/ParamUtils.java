@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ParamUtils {
 
-    public static Map<String, Object> createParams(Object... keyValuePairs) {
+	public static Map<String, Object> createParams(Object... keyValuePairs) {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("키와 값의 개수가 일치하지 않습니다.");
         }
@@ -17,7 +17,9 @@ public class ParamUtils {
             }
             String key = (String) keyValuePairs[i];
             Object value = keyValuePairs[i + 1];
-            params.put(key, value);
+            if (value != null) { // null 값을 제외합니다.
+                params.put(key, value);
+            }
         }
         return params;
     }
