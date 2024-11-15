@@ -21,7 +21,6 @@
     ,   inv.`item_id`
     ,   itm.`item_name`
     ,   itm.`item_description`
-    ,   itm.`item_price`
     ,   cat.`category_name` AS item_category
     ,   itm.`item_rarity`
     ,   img.`image_id`
