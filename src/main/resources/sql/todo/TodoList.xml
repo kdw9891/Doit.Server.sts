@@ -17,9 +17,8 @@
 		DOIT.tb_todolist
 	WHERE 
 	  	user_id = #{user_id} 
-  		AND task_date = #{task_date}
   		AND use_yn = 'Y'
-	ORDER BY 
+	ORDER BY
   		task_order ASC;
   </select>
   
