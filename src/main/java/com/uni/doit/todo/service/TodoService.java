@@ -31,5 +31,27 @@ public class TodoService extends BaseService {
             return handleDatabaseError(e, "TodoInsert");
         }
     }
+    
+ // Todo Update 
+    public ResponseEntity<?> todoUpdate(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.UpdateTodo", param, "Result"));
+        }
+        catch (Exception e) {
+            return handleDatabaseError(e, "TodoUpdate");
+        }
+    }
 
+    // Todo Delete 
+    public ResponseEntity<?> todoDelete(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.DeleteTodo", param, "Result"));
+        }
+        catch (Exception e) {
+            return handleDatabaseError(e, "TodoDelete");
+        }
+    }
+    
 }

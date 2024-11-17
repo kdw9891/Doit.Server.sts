@@ -36,9 +36,10 @@
     	<mapper resource="sql/store/StoreList.xml"/>
     	
     	<!-- todo -->
-    	<mapper resource="sql/todo/TodoDelete.xml"/>
-    	<mapper resource="sql/todo/TodoInsert.xml"/>
     	<mapper resource="sql/todo/TodoList.xml"/>
+    	<mapper resource="sql/todo/TodoInsert.xml"/>
+    	<mapper resource="sql/todo/TodoUpdate.xml"/>
+    	<mapper resource="sql/todo/TodoDelete.xml"/>
     	
     	<!-- upload -->
     	<mapper resource="sql/upload/image/ImageInsert.xml"/>

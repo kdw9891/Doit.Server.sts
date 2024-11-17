@@ -27,14 +27,14 @@ public class TodoController extends BaseController {
     }
     
     @GetMapping("/list")
-    public ResponseEntity<?> HomeList(@RequestParam String user_id) throws IOException {
+    public ResponseEntity<?> TodoList(@RequestParam String user_id) throws IOException {
     	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
         
         return toDoService.todoList(params);
     }
     
     @PostMapping("/insert")
-    public ResponseEntity<?> TodoInsert(@RequestBody TodoInsertRequest toDoInsertRequest) throws IOException {
+    public ResponseEntity<?> TodoInsert(@RequestParam TodoInsertRequest toDoInsertRequest) throws IOException {
     	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_id", "task_title", "task_date");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {
@@ -44,5 +44,31 @@ public class TodoController extends BaseController {
         Map<String, Object> params = validationResult.getBody();
     	
         return toDoService.todoInsert(params);
+    }
+    
+    @PutMapping("/update")
+    public ResponseEntity<?> TodoUpdate(@RequestParam TodoUpdateRequest todoUpdateRequest) throws IOException {
+    	ResponseEntity<Map<String, Object>> validationResult = validateDto(todoUpdateRequest, "user_id", "task_id", "task_title");       
+        
+    	if (validationResult.getStatusCode().is4xxClientError()) {
+            return validationResult;
+        }
+
+        Map<String, Object> params = validationResult.getBody();
+    	
+        return toDoService.todoUpdate(params);
+    }
+    
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> TodoDelete(@RequestParam TodoDeleteRequest toDoDeleteRequest) throws IOException {
+    	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoDeleteRequest, "user_id", "task_id");       
+        
+    	if (validationResult.getStatusCode().is4xxClientError()) {
+            return validationResult;
+        }
+
+        Map<String, Object> params = validationResult.getBody();
+    	
+        return toDoService.todoDelete(params);
     }
 }
