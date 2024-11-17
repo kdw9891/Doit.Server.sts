@@ -34,7 +34,7 @@ public class TodoController extends BaseController {
     }
     
     @PostMapping("/insert")
-    public ResponseEntity<?> TodoInsert(@RequestParam TodoInsertRequest toDoInsertRequest) throws IOException {
+    public ResponseEntity<?> TodoInsert(@RequestBody TodoInsertRequest toDoInsertRequest) throws IOException {
     	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_id", "task_title", "task_date");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {
@@ -47,7 +47,7 @@ public class TodoController extends BaseController {
     }
     
     @PutMapping("/update")
-    public ResponseEntity<?> TodoUpdate(@RequestParam TodoUpdateRequest todoUpdateRequest) throws IOException {
+    public ResponseEntity<?> TodoUpdate(@RequestBody TodoUpdateRequest todoUpdateRequest) throws IOException {
     	ResponseEntity<Map<String, Object>> validationResult = validateDto(todoUpdateRequest, "user_id", "task_id", "task_title");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {
@@ -59,8 +59,15 @@ public class TodoController extends BaseController {
         return toDoService.todoUpdate(params);
     }
     
+    @PutMapping("/completed")
+    public ResponseEntity<?> CompletedUpdate(@RequestParam String user_id, String task_id) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "task_id", task_id);     
+    	
+        return toDoService.completedUpdate(params);
+    }
+    
     @DeleteMapping("/delete")
-    public ResponseEntity<?> TodoDelete(@RequestParam TodoDeleteRequest toDoDeleteRequest) throws IOException {
+    public ResponseEntity<?> TodoDelete(@RequestBody TodoDeleteRequest toDoDeleteRequest) throws IOException {
     	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoDeleteRequest, "user_id", "task_id");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {

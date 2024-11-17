@@ -21,7 +21,7 @@ public class TodoService extends BaseService {
         }
     }
     
- // Todo Insert 
+    // Todo Insert 
     public ResponseEntity<?> todoInsert(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
@@ -32,7 +32,7 @@ public class TodoService extends BaseService {
         }
     }
     
- // Todo Update 
+    // Todo Update 
     public ResponseEntity<?> todoUpdate(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
@@ -40,6 +40,17 @@ public class TodoService extends BaseService {
         }
         catch (Exception e) {
             return handleDatabaseError(e, "TodoUpdate");
+        }
+    }
+    
+    // Completed Update 
+    public ResponseEntity<?> completedUpdate(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.UpdateCompleted", param, "Result"));
+        }
+        catch (Exception e) {
+            return handleDatabaseError(e, "CompletedUpdate");
         }
     }
 

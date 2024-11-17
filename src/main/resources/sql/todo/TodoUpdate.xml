@@ -13,5 +13,16 @@
 			AND task_id = #{task_id}
 			AND	task_title = #{task_title}
     </update>
+    
+   	<!-- Todo 할일 완료 처리 -->
+	<update id="UpdateCompleted" parameterType="HashMap">
+    	UPDATE tb_todolist
+		SET 
+    		is_completed = 1
+    	,	updated_dt = CURRENT_TIMESTAMP()
+		WHERE
+    		user_id = #{user_id}
+    		AND task_id = #{task_id};
+    </update>
 
 </mapper>
