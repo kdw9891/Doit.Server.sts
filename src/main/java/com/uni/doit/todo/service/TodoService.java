@@ -25,7 +25,7 @@ public class TodoService extends BaseService {
     public ResponseEntity<?> todoInsert(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.InsertTodo", param, "Result"));
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoInsert.InsertTodo", param, "Result"));
         }
         catch (Exception e) {
             return handleDatabaseError(e, "TodoInsert");
@@ -36,7 +36,7 @@ public class TodoService extends BaseService {
     public ResponseEntity<?> todoUpdate(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.UpdateTodo", param, "Result"));
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoUpdate.UpdateTodo", param, "Result"));
         }
         catch (Exception e) {
             return handleDatabaseError(e, "TodoUpdate");
@@ -47,7 +47,7 @@ public class TodoService extends BaseService {
     public ResponseEntity<?> completedUpdate(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.UpdateCompleted", param, "Result"));
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoUpdate.UpdateCompleted", param, "Result"));
         }
         catch (Exception e) {
             return handleDatabaseError(e, "CompletedUpdate");
@@ -58,7 +58,7 @@ public class TodoService extends BaseService {
     public ResponseEntity<?> todoDelete(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
-            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoList.DeleteTodo", param, "Result"));
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "TodoDelete.DeleteTodo", param, "Result"));
         }
         catch (Exception e) {
             return handleDatabaseError(e, "TodoDelete");
