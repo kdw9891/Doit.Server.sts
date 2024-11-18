@@ -60,7 +60,7 @@ public class TodoController extends BaseController {
     }
     
     @PutMapping("/completed")
-    public ResponseEntity<?> CompletedUpdate(@RequestParam String user_id, @RequestParam String task_id) throws IOException {
+    public ResponseEntity<?> CompletedUpdate(@RequestParam String user_id, @RequestParam Integer task_id) throws IOException {
     	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "task_id", task_id);     
     	
         return toDoService.completedUpdate(params);
