@@ -7,11 +7,12 @@
 	<!-- Todo 수정 처리 -->
 	<update id="UpdateTodo" parameterType="HashMap">
     	UPDATE tb_todolist
-		SET updated_dt = CURRENT_TIMESTAMP()
+		SET 
+			task_title = #{task_title}
+		,	updated_dt = CURRENT_TIMESTAMP()
 		WHERE
 			user_id = #{user_id}
 			AND task_id = #{task_id}
-			AND	task_title = #{task_title}
     </update>
     
    	<!-- Todo 할일 완료 처리 -->
@@ -22,7 +23,7 @@
     	,	updated_dt = CURRENT_TIMESTAMP()
 		WHERE
     		user_id = #{user_id}
-    		AND task_id = #{task_id};
+    		AND task_id = #{user_id};
     </update>
 
 </mapper>
