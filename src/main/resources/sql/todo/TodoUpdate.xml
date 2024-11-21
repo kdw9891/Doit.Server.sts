@@ -23,7 +23,7 @@
     	,	updated_dt = CURRENT_TIMESTAMP()
 		WHERE
     		user_id = #{user_id}
-    		AND task_id = #{user_id};
+    		AND task_id = #{task_id};
     </update>
 
 </mapper>
