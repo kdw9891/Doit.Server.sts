@@ -56,9 +56,9 @@
     	SET is_completed = 1,
             updated_dt = CURRENT_TIMESTAMP()
         WHERE
-        	user_id = #{userId}
-        	AND task_date = #{taskDate}
-        	AND task_id = #{taskId}
+        	user_id = #{user_id}
+        	AND task_date = #{task_date}
+        	AND task_id = #{task_id}
 	</update>
   
   
