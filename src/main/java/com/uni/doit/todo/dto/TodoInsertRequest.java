@@ -20,8 +20,4 @@ public class TodoInsertRequest {
     @JsonProperty("task_title")
     private String task_title;
     
-    @JsonProperty("task_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate task_date;
-    
 }

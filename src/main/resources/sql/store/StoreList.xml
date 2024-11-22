@@ -25,7 +25,6 @@
     ,   i.is_available
     ,   i.created_at
     ,   img.image_url
-    ,   img.image_description
     ,   GROUP_CONCAT(CONCAT(e.effect_type, ': ', e.effect_value, IF(e.effect_duration IS NOT NULL, CONCAT(' (', e.effect_duration, '초)'), '')) SEPARATOR ', ') AS item_effects
 	FROM 
     	tb_items i

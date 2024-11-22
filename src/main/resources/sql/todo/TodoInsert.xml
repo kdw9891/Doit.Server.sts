@@ -29,7 +29,7 @@
     		#{user_id}
     	,   #{task_id}
     	,   #{task_title}
-    	,   #{task_date}
+    	,   CURRENT_TIMESTAMP()
     	,
     	(
         	SELECT
