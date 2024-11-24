@@ -19,6 +19,7 @@
 	<insert id="InsertTodo" parameterType="HashMap">
 		INSERT INTO DOIT.tb_todolist (
     		user_id
+    	,   task_id
     	,   task_title
     	,   task_date
     	,   task_order
@@ -26,8 +27,9 @@
     	,   created_dt
 		) VALUES (
     		#{user_id}
+    	,   0
     	,   #{task_title}
-    	,    CURRENT_DATE()
+    	,   CURRENT_DATE()
     	,
     	(
         	SELECT
@@ -43,8 +45,8 @@
             			AND task_date = #{task_date}
         		) AS subquery
     	),
-    		0
-    	,	CURRENT_TIMESTAMP()
+    		0,
+    		CURRENT_TIMESTAMP()
 		);
 	</insert>
 
