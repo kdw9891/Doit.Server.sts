@@ -35,7 +35,7 @@ public class TodoController extends BaseController {
     
     @PostMapping("/insert")
     public ResponseEntity<?> TodoInsert(@RequestBody TodoInsertRequest toDoInsertRequest) throws IOException {
-    	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_id", "task_title");       
+    	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_title");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {
             return validationResult;
