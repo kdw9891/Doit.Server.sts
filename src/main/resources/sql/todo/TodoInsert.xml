@@ -17,36 +17,33 @@
 
 	<!-- Todo 완료 여부 참고 : (0: 미완료, 1: 완료) -->
 	<insert id="InsertTodo" parameterType="HashMap">
-		INSERT INTO DOIT.tb_todolist (
-    		user_id
-    	,   task_title
-    	,   task_date
-    	,   task_order
-    	,   is_completed
-    	,   created_dt
-		) VALUES (
-    		#{user_id}
-    	,   #{task_title}
-    	,   CURRENT_DATE()
-    	,
-    	(
-        	SELECT
-        		new_task_order
-        	FROM
-        		(
-            		SELECT
-            			IFNULL(MAX(task_order), 0) + 1 AS new_task_order
-            		FROM
-            			DOIT.tb_todolist
-            		WHERE
-            			user_id = #{user_id}
-            			AND task_date = #{task_date}
-        		) AS subquery
-    	),
-    		0,
-    		CURRENT_TIMESTAMP()
-		);
+    	INSERT INTO DOIT.tb_todolist (
+	        user_id,
+        	task_id,
+        	task_title,
+        	task_date,
+        	task_order,
+        	is_completed,
+        	created_dt
+    	) VALUES (
+	        #{user_id},
+        	(
+	            SELECT IFNULL(MAX(task_id), 0) + 1
+            	FROM DOIT.tb_todolist
+            	WHERE user_id = #{user_id}
+        	),
+        	#{task_title},
+        	CURRENT_DATE(),
+        	(
+	            SELECT IFNULL(MAX(task_order), 0) + 1
+            	FROM DOIT.tb_todolist
+            	WHERE user_id = #{user_id} AND task_date = #{task_date}
+        	),
+        	0,
+        	CURRENT_TIMESTAMP()
+    	);
 	</insert>
+
 
 	<!-- Todo Clear 완료 처리 쿼리 -->
 	<update id="UpdateTodoClear" parameterType="HashMap">
