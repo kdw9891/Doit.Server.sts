@@ -23,11 +23,11 @@ public class TodoService extends BaseService {
     
     // Todo Insert 
     public ResponseEntity<?> todoInsert(Map<String, Object> param) {
-        try (SqlSession session = getSession()) {
-            
+        try {
+            SqlSession session = getSession();
             Integer newTaskId = session.selectOne("TodoInsert.SelectNewTaskId", param);
             param.put("task_id", newTaskId);
-            
+
             Integer newTaskOrder = session.selectOne("TodoInsert.SelectNewTaskOrder", param);
             param.put("task_order", newTaskOrder);
 
