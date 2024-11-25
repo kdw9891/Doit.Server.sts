@@ -4,22 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TodoList">
 
-  <select id="SelectTodo" resultType="HashMap" parameterType="HashMap">
-	SELECT 
-	    task_id
-	,   task_title
-	,   task_date
-	,   task_order
-	,   is_completed
-	,   created_dt
-	,   updated_dt
-	FROM 
-		DOIT.tb_todolist
-	WHERE 
-	  	user_id = #{user_id} 
-  		AND use_yn = 'Y'
-	ORDER BY
-  		task_order ASC;
-  </select>
+	<select id="SelectTodo" resultType="HashMap" parameterType="HashMap">
+	    SELECT 
+	        task_id,
+	        task_title,
+	        task_date,
+	        task_order,
+	        is_completed,
+	        created_dt,
+	        updated_dt
+	    FROM 
+	        DOIT.tb_todolist
+	    WHERE 
+	        user_id = #{user_id} 
+	        AND use_yn = 'Y'
+	        AND task_date = #{task_date}
+	    ORDER BY
+	        task_order ASC;
+	</select>
   
 </mapper>

@@ -27,15 +27,15 @@ public class TodoController extends BaseController {
     }
     
     @GetMapping("/list")
-    public ResponseEntity<?> TodoList(@RequestParam String user_id) throws IOException {
-    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id);       
+    public ResponseEntity<?> TodoList(@RequestParam String user_id, @RequestParam String task_date) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "task_date", task_date);       
         
         return toDoService.todoList(params);
     }
     
     @PostMapping("/insert")
     public ResponseEntity<?> TodoInsert(@RequestBody TodoInsertRequest toDoInsertRequest) throws IOException {
-    	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_title");       
+    	ResponseEntity<Map<String, Object>> validationResult = validateDto(toDoInsertRequest, "user_id", "task_date", "task_title");       
         
     	if (validationResult.getStatusCode().is4xxClientError()) {
             return validationResult;

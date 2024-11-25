@@ -12,6 +12,9 @@ public class TodoInsertRequest {
     @JsonProperty("user_id")
     private String user_id;
     
+    @JsonProperty("task_date")
+    private String task_date;
+    
     @JsonProperty("task_title")
     private String task_title;
     
