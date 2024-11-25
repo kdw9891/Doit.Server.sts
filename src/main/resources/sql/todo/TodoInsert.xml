@@ -15,41 +15,40 @@
 	    	AND task_date = #{task_date}
 	</select>
 
-	<!-- Todo 완료 여부 참고 : (0: 미완료, 1: 완료) -->
-	<insert id="InsertTodo" parameterType="HashMap">
-	    <!-- Step 1: 새로운 task_id 계산 -->
-	    SET @new_task_id = (
-	        SELECT IFNULL(MAX(task_id), 0) + 1
-	        FROM DOIT.tb_todolist
-	        WHERE user_id = #{user_id}
-	    );
-	
-	    <!-- Step 2: 새로운 task_order 계산 -->
-	    SET @new_task_order = (
-	        SELECT IFNULL(MAX(task_order), 0) + 1
-	        FROM DOIT.tb_todolist
-	        WHERE user_id = #{user_id} AND task_date = #{task_date}
-	    );
-	
-	    <!-- Step 3: 최종 INSERT -->
-	    INSERT INTO DOIT.tb_todolist (
-	        user_id,
-	        task_id,
-	        task_title,
-	        task_date,
-	        task_order,
-	        is_completed,
-	        created_dt
-	    ) VALUES (
-	        #{user_id},
-	        @new_task_id,
-	        #{task_title},
-	        #{task_date},
-	        @new_task_order,
-	        0,
-	        CURRENT_TIMESTAMP()
-	    );
-	</insert>
+	<!-- Step 1: 새로운 task_id 계산 -->
+    <select id="SelectNewTaskId" resultType="int" parameterType="HashMap">
+        SELECT IFNULL(MAX(task_id), 0) + 1
+        FROM DOIT.tb_todolist
+        WHERE user_id = #{user_id}
+    </select>
+
+    <!-- Step 2: 새로운 task_order 계산 -->
+    <select id="SelectNewTaskOrder" resultType="int" parameterType="HashMap">
+        SELECT IFNULL(MAX(task_order), 0) + 1
+        FROM DOIT.tb_todolist
+        WHERE user_id = #{user_id} AND task_date = #{task_date}
+    </select>
+
+    <!-- Step 3: 최종 INSERT -->
+    <insert id="InsertTodo" parameterType="HashMap">
+        INSERT INTO DOIT.tb_todolist (
+            user_id,
+            task_id,
+            task_title,
+            task_date,
+            task_order,
+            is_completed,
+            created_dt
+        ) VALUES (
+            #{user_id},
+            #{task_id},
+            #{task_title},
+            #{task_date},
+            #{task_order},
+            0,
+            CURRENT_TIMESTAMP()
+        );
+    </insert>
 
 
 
