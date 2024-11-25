@@ -6,7 +6,7 @@
 
   	<!-- 포인트 사용 내역 추가 -->
     <insert id="InsertPointUsage" parameterType="HashMap">
-        INSERT INTO tb_point_usage (
+        INSERT INTO tb_user_point_usage (
             user_id
         ,   item_id
         ,   points_spent
