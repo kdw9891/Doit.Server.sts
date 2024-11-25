@@ -65,7 +65,7 @@ public class StoreService extends BaseService {
             session.update("StoreInsert.UpdateUserTotalPoints", params);
 
             // 인벤토리에 아이템 추가
-            session.insert("InvList.InsertUserInventory", params);
+            session.insert("StoreInsert.InsertUserInventory", params);
 
             // 포인트 사용 내역 기록
             session.insert("StoreInsert.InsertPointUsage", params);
