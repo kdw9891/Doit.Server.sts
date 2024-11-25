@@ -53,4 +53,11 @@
 		);
   </insert>
     
+  <update id="UpdateUserInventoryQuantity" parameterType="HashMap">
+	    UPDATE tb_user_inventory
+	    	SET quantity = quantity + #{quantity}
+	    WHERE user_id = #{user_id}
+	    	AND item_id = #{item_id};
+  </update>
+    
 </mapper>

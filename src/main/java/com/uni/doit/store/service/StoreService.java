@@ -40,40 +40,39 @@ public class StoreService extends BaseService {
         try {
             SqlSession session = getSession();
 
-            // 아이템 정보 확인
+            // 1. 아이템 정보 확인
             Map<String, Object> itemInfo = session.selectOne("StoreList.SelectItemPrice", params);
             if (itemInfo == null || (int) itemInfo.get("is_available") != 1) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("해당 아이템은 구매할 수 없습니다.");
             }
 
-            // 아이템 가격 및 총 비용 계산
             int itemPrice = (int) itemInfo.get("item_price");
-            int quantity = (int) params.getOrDefault("quantity", 1); // 기본값 1
-            if (quantity <= 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효하지 않은 수량입니다.");
-            }
+            int quantity = (int) params.get("quantity");
             int totalCost = itemPrice * quantity;
 
-            // 사용자 포인트 확인
             int userPoints = session.selectOne("StoreInsert.SelectUserTotalPoints", params);
             if (userPoints < totalCost) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("포인트가 부족합니다.");
             }
 
-            // 포인트 차감
+            // 2. 중복 여부 확인
+            int existingCount = session.selectOne("StoreInsert.SelectUserItem", params);
+            if (existingCount > 0) {
+                // 중복된 경우 수량 증가
+                session.update("StoreInsert.UpdateUserInventoryQuantity", params);
+            } else {
+                // 새 데이터 삽입
+                session.insert("StoreInsert.InsertUserInventory", params);
+            }
+
+            // 3. 포인트 차감 및 사용 내역 추가
             params.put("points_spent", totalCost);
             session.update("StoreInsert.UpdateUserTotalPoints", params);
-
-            // 인벤토리에 아이템 추가
-            session.insert("StoreInsert.InsertUserInventory", params);
-
-            // 포인트 사용 내역 기록
             session.insert("StoreInsert.InsertPointUsage", params);
 
             return ResponseEntity.ok("구매가 완료되었습니다.");
         } catch (Exception e) {
-            logger.error("구매 중 오류 발생: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("구매 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(500).body("구매 중 오류 발생: " + e.getMessage());
         }
     }
 
