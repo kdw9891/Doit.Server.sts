@@ -12,8 +12,8 @@ public class PurchaseRequest {
     private String user_id;
     
     @JsonProperty("item_id")
-    private Integer item_id;
+    private String item_id;
     
     @JsonProperty("quantity")
-    private Integer quantity;
+    private String quantity;
 }
