@@ -48,8 +48,8 @@
   <!-- 특정 아이템의 가격 및 구매 가능 여부 확인 -->
   <select id="SelectItemPrice" parameterType="int" resultType="HashMap">
   	SELECT
-    	item_price
-        ,	is_available
+    	item_price,
+        CASE WHEN is_available THEN 1 ELSE 0 END AS is_available
     FROM
        	tb_items
     WHERE
