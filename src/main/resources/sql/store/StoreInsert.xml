@@ -59,5 +59,13 @@
 	    WHERE user_id = #{user_id}
 	    	AND item_id = #{item_id};
   </update>
+  
+  <select id="SelectUserItem" parameterType="HashMap" resultType="int">
+    SELECT COUNT(1)
+    	FROM tb_user_inventory
+    WHERE user_id = #{user_id}
+    	AND item_id = #{item_id};
+  </select>
+
     
 </mapper>
