@@ -40,17 +40,17 @@
     </update>
     
     <insert id="InsertUserInventory" parameterType="HashMap">
-    INSERT INTO tb_user_inventory (
-        user_id,
-        item_id,
-        quantity,
-        acquired_date
-    ) VALUES (
-        #{user_id},
-        #{item_id},
-        #{quantity},
-        CURRENT_TIMESTAMP()
-    );
+		INSERT INTO tb_user_inventory (
+		    user_id,
+		    item_id,
+		    quantity,
+		    purchase_date
+		) VALUES (
+		    #{user_id},
+		    #{item_id},
+		    #{quantity},
+		    CURRENT_TIMESTAMP()
+		);
   </insert>
     
 </mapper>
