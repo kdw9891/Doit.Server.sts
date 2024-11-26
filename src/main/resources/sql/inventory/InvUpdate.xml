@@ -34,5 +34,11 @@
         WHERE 
             `inventory_id` = #{inventory_id} AND `quantity` > 0;
     </update>
+    
+    <update id="UpdateWearable" parameterType="HashMap">
+		UPDATE tb_user_cat_equipment 
+		SET item_id = #{item_id}, equipped_date = CURRENT_TIMESTAMP 
+		WHERE user_id = #{user_id};
+    </update>
 
 </mapper>

@@ -13,4 +13,14 @@
         );
     </insert>
 
+    <insert id="InsertObject" parameterType="HashMap">
+		INSERT INTO tb_user_field_objects (user_id, item_id) 
+		VALUES (#{user_id}, #{item_id});
+    </insert>
+    
+    <insert id="InsertWearable" parameterType="HashMap">
+		INSERT INTO tb_user_cat_equipment (user_id, item_id) 
+		VALUES (#{user_id}, #{item_id});
+    </insert>
+
 </mapper>
