@@ -49,11 +49,18 @@ public class InvController extends BaseController {
         return invService.itemDetail(params);
     }
  
-    // 아이템 사용
     @PostMapping("/itemuse")
     public ResponseEntity<?> useItem(@RequestParam String user_id, String inventory_id, Integer item_id) {
-    	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "inventory_id", inventory_id, "item_id", item_id);
-    	
+        // 들어오는 파라미터 출력
+        System.out.println("Incoming Params:");
+        System.out.println("user_id: " + user_id);
+        System.out.println("inventory_id: " + inventory_id);
+        System.out.println("item_id: " + item_id);
+
+        // Map으로 변환 후 출력
+        Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "inventory_id", inventory_id, "item_id", item_id);
+        System.out.println("Params Map: " + params);
+
         return invService.handleItemPurchase(params);
     }
     

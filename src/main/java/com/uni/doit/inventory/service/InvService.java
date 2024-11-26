@@ -75,10 +75,10 @@ public class InvService extends BaseService {
         }
     }
 
-    private ResponseEntity<?> handleObjectItem(String userId, int itemId) {
+    private ResponseEntity<?> handleObjectItem(String user_id, int item_id) {
         try {
             // 이미 장착된 오브젝트인지 확인
-            Map<String, Object> checkParam = Map.of("user_id", userId, "item_id", itemId);
+            Map<String, Object> checkParam = Map.of("user_id", user_id, "item_id", item_id);
             int count = getSession().selectOne("InvList.FieldObject", checkParam);
 
             if (count > 0) {
@@ -97,15 +97,15 @@ public class InvService extends BaseService {
         }
     }
 
-    private ResponseEntity<?> handleWearableItem(String userId, int itemId) {
+    private ResponseEntity<?> handleWearableItem(String user_id, int item_id) {
         try {
             // 이미 장착된 의상인지 확인
-            Map<String, Object> checkParam = Map.of("user_id", userId);
+            Map<String, Object> checkParam = Map.of("user_id", user_id);
             int count = getSession().selectOne("InvList.CatEquipment", checkParam);
 
             if (count > 0) {
                 // 기존 의상 업데이트
-                int result = getSession().update("InvUpdate.UpdateWearable", Map.of("user_id", userId, "item_id", itemId));
+                int result = getSession().update("InvUpdate.UpdateWearable", Map.of("user_id", user_id, "item_id", item_id));
                 if (result > 0) {
                     return ResponseEntity.ok("의상이 성공적으로 변경되었습니다.");
                 } else {
@@ -113,7 +113,7 @@ public class InvService extends BaseService {
                 }
             } else {
                 // 새 의상 삽입
-                int result = getSession().insert("InvInsert.InsertWearable", Map.of("user_id", userId, "item_id", itemId));
+                int result = getSession().insert("InvInsert.InsertWearable", Map.of("user_id", user_id, "item_id", item_id));
                 if (result > 0) {
                     return ResponseEntity.ok("의상이 성공적으로 장착되었습니다.");
                 } else {
