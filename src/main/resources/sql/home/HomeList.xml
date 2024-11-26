@@ -34,4 +34,13 @@
 			user_id = #{user_id}
 	</select>
 	
+	<select id="CatEquipSelect" resultType="HashMap" parameterType="HashMap">
+		select
+			item_id
+		from
+			tb_user_cat_equipment
+		where
+			user_id = #{user_id}
+	</select>
+	
 </mapper>

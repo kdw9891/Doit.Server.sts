@@ -21,7 +21,7 @@ public class HomeService extends BaseService {
         }
     }
     
-    // 홈 List 
+    // Field Item List 
     public ResponseEntity<?> fieldItemList(Map<String, Object> param) {
         try {
             SqlSession session = getSession();
@@ -29,6 +29,16 @@ public class HomeService extends BaseService {
         }
         catch (Exception e) {
             return handleDatabaseError(e, "fieldItemList");
+        }
+    }
+    
+    public ResponseEntity<?> catEquipList(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "HomeList.CatEquipSelect", param, "Result"));
+        }
+        catch (Exception e) {
+            return handleDatabaseError(e, "catEquipList");
         }
     }
     
