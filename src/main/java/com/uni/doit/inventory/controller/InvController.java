@@ -40,6 +40,14 @@ public class InvController extends BaseController {
 
         return invService.invList(params);
     }
+    
+    // 아이템 정보
+    @GetMapping("/itemdetails")
+    public ResponseEntity<?> itemDetail(@RequestParam String item_id) throws IOException {
+    	Map<String, Object> params = ParamUtils.createParams("item_id", item_id);
+
+        return invService.itemDetail(params);
+    }
  
     // 아이템 사용
     @PostMapping("/itemuse")

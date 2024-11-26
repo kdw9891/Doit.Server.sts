@@ -27,6 +27,15 @@ public class InvService extends BaseService {
             return handleDatabaseError(e, "invList");
         }
     }
+    
+    // 인벤토리 리스트 불러오기
+    public ResponseEntity<?> itemDetail(Map<String, Object> param) {
+        try {
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(getSession(), "InvList.SelectItemDetails", param, "Result"));
+        } catch (Exception e) {
+            return handleDatabaseError(e, "itemDetail");
+        }
+    }
 
     // 아이템 사용 처리
     public ResponseEntity<?> handleItemPurchase(Map<String, Object> param) {
