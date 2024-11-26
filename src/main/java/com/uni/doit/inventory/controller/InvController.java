@@ -42,7 +42,7 @@ public class InvController extends BaseController {
     }
  
     // 아이템 사용
-    @PutMapping("/itemuse")
+    @PostMapping("/itemuse")
     public ResponseEntity<?> useItem(@RequestParam String user_id, String inventory_id, Integer item_id) {
     	Map<String, Object> params = ParamUtils.createParams("user_id", user_id, "inventory_id", inventory_id, "item_id", item_id);
     	
