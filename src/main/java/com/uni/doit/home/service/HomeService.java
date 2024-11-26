@@ -21,6 +21,17 @@ public class HomeService extends BaseService {
         }
     }
     
+    // 홈 List 
+    public ResponseEntity<?> fieldItemList(Map<String, Object> param) {
+        try {
+            SqlSession session = getSession();
+            return ResponseEntity.ok(jsonResultUtils.getJsonResult(session, "HomeList.FieldItemSelect", param, "Result"));
+        }
+        catch (Exception e) {
+            return handleDatabaseError(e, "fieldItemList");
+        }
+    }
+    
     // 타이머 기록 및 보상 처리
     public ResponseEntity<?> timerUser(Map<String, Object> param) {
         try {

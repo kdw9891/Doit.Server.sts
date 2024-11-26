@@ -25,4 +25,13 @@
     		u.user_id = #{user_id};
 	</select>
 	
+	<select id="FieldItemSelect" resultType="HashMap" parameterType="HashMap">
+		select
+			item_id
+		from
+			tb_user_field_objects
+		where
+			user_id = #{user_id}
+	</select>
+	
 </mapper>
